@@ -15,6 +15,9 @@ from app.routes.company import router as company_router
 from app.routes.company_logo import router as company_logo_router
 
 
+import re
+from fastapi import Request
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Initialize database tables asynchronously
@@ -28,6 +31,17 @@ app = FastAPI(
     version="2.0.0",
     lifespan=lifespan
 )
+
+# Normalize double/multiple slashes in path
+@app.middleware("http")
+async def clean_double_slashes(request: Request, call_next):
+    path = request.scope.get("path", "")
+    if path and "//" in path:
+        cleaned_path = re.sub(r"/+", "/", path)
+        request.scope["path"] = cleaned_path
+        if "raw_path" in request.scope:
+            request.scope["raw_path"] = cleaned_path.encode("utf-8")
+    return await call_next(request)
 
 # CORS Configuration
 app.add_middleware(

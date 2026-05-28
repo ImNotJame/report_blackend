@@ -1,0 +1,30 @@
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environment
+.venv/
+venv/
+env/
+
+# IDE files
+.idea/
+.vscode/
+
+# Local temporary files generated at runtime (recreated by app)
+temp_convert/
+static/uploads/
+
+# Git
+.git/
+.gitignore
+
+# Docs and scratch
+*.md
+
+# Local test files and databases
+*.pdf
+*.docx
+database.db

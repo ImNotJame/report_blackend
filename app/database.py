@@ -25,7 +25,7 @@ else:
     ASYNC_DATABASE_URL = DATABASE_URL
 
 # Create async engine
-engine = create_async_engine(ASYNC_DATABASE_URL, echo=True)
+engine = create_async_engine(ASYNC_DATABASE_URL, echo=True, pool_pre_ping=True, pool_recycle=300)
 
 SessionLocal = async_sessionmaker(
     autocommit=False,
